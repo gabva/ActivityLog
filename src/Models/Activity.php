@@ -34,7 +34,15 @@ class Activity extends Eloquent {
 	 */
 	public function user()
 	{
-		return $this->belongsTo(config('auth.providers.users.model'), 'user_id');
+		//Laravel 5.2 way
+		$userModel  = config('auth.providers.users.model');
+
+		//Try the Laravel 5.1 config array
+		if (!$userModel) {
+			$userModel = config('auth.model');
+		}
+
+		return $this->belongsTo($userModel, 'user_id');
 	}
 
 	/**
